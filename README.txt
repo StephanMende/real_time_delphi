@@ -2,29 +2,12 @@
 CONTENTS OF THIS FILE
 ---------------------
 
- * About Real Time Delphi
  * About Drupal
  * Configuration and features
  * Installation profiles
  * Appearance
  * Developing for Drupal
 
-
-ABOUT Real Time Delphi
-----------------------
-
-Real Time Delphi is a new method to apply delphi surveys without rounds.
-Please see [Eggert et al. 2019](https://www.springer.com/de/book/9783662595442#) and [Hofer et al. 2019] (https://www.springer.com/de/book/9783662595442#)
-
-If you want to install this tool please follow these steps:
- * Create a MySQL Database e.g. with the name delphi
- * Copy the files in your web root directory of your Webserver. If you have Apache this would be /var/www/html
- * Go to your webadress or localhost
- * Select delphi as installation profile
- * Follow the step and fill out all information
- * Klick on appearance
- * Look for iheartred theme
- * Click on Enable and set default at the iheartred theme
 ABOUT DRUPAL
 ------------
 
