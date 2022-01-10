@@ -1,25 +1,21 @@
-FROM drupal:7.77-apache
+FROM drupal:7.84-apache
 
 RUN apt-get update && apt-get install -y \
 	curl \
 	git \
 	vim \
-	wget
+	wget \
+	default-mysql-client
 
-#Install nodejs
-#RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
-#RUN apt install -y nodejs
-#RUN node --version
-#RUN npm --version
-#Install composer
-#RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-#	php composer-setup.php && \
-#	mv composer.phar /usr/local/bin/composer && \
-#	php -r "unlink('composer-setup.php');"
-#Install drush
-#RUN composer global require drush/drush
-#Install drupal console
-#RUN composer global require drupal/console:~1.0 --prefer-dist --optimize-autoloader
+# Install composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+	php composer-setup.php && \
+	mv composer.phar /usr/local/bin/composer && \
+	php -r "unlink('composer-setup.php');"
+# Install drush
+RUN wget -O drush.phar https://github.com/drush-ops/drush/releases/download/8.4.10/drush.phar && \
+	chmod +x drush.phar && \
+	cp -Rf drush.phar /usr/local/bin/drush
 
 RUN rm -rf /var/www/html/*
 

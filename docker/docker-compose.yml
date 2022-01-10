@@ -1,6 +1,7 @@
 version: '3'
 services:
   delphi_db:
+    container_name: delphi-db
     image: mysql:5.7
     command: --max_allowed_packet=32505856 #Set max_allowed_packet to 256M
     environment:
@@ -13,6 +14,7 @@ services:
     restart: always
     #network_mode: host
   delphi_drupal:
+    container_name: delphi-drupal7
     depends_on:
       - delphi_db
     build: .
