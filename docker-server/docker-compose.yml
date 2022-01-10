@@ -1,0 +1,46 @@
+version: '3'
+services:
+  delphi_db:
+    container_name: delphi-db
+    image: mysql:5.7
+    command: --max_allowed_packet=32505856 #Set max_allowed_packet to 256M
+    environment:
+      MYSQL_DATABASE: delphi_d7
+      MYSQL_ROOT_PASSWORD: delphi_d7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../delphi_d7_db_data:/var/lib/mysql
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.drupal_delphi.entrypoints=http"
+      - "traefik.http.routers.drupal_delphi.rule=Host(`delphi-tool.ddns.net`)"
+      - "traefik.http.middlewares.drupal_delphi-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.drupal_delphi.middlewares=drupal_delphi-https-redirect"
+      - "traefik.http.routers.drupal_delphi-secure.entrypoints=https"
+      - "traefik.http.routers.drupal_delphi-secure.rule=Host(`delphi-tool.ddns.net`)"
+      - "traefik.http.routers.drupal_delphi-secure.tls=true"
+      - "traefik.http.routers.drupal_delphi-secure.tls.certresolver=http"
+      - "traefik.http.routers.drupal_delphi-secure.service=drupal_delphi"
+      - "traefik.http.services.drupal_delphi.loadbalancer.server.port=80"
+      - "traefik.docker.network=proxy"
+    networks:
+      - proxy
+      - default
+  delphi_drupal:
+    container_name: delphi-drupal7
+    depends_on:
+      - delphi_db
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ..:/app
+    restart: always
+volumes:
+  delphi_d7_db_data:
+networks:
+  proxy:
+    external:
+      name: proxy
